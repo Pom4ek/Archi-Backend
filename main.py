@@ -1,10 +1,21 @@
 import shutil
 import uvicorn
+
+from app.routers import auth as auth_router
+from app.routers import users as user_router
+
 from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
+
+
+app.include_router(router=auth_router)
+app.include_router(router=user_router)
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.post("/upload")
