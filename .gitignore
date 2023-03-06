@@ -1,0 +1,12 @@
+# virtual env
+.venv
+
+# static files
+app/static
+
+# databases
+*.db
+
+# dll, cache
+__pycache__
+.idea

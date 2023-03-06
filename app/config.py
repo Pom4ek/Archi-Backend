@@ -1,0 +1,8 @@
+PORT = "8000"
+HOST = "127.0.0.1"
+DATABASE_NAME = "archi"
+DATABASE_USERNAME = "master"
+DATABASE_PASS = "Bebrix1337$"
+DATABASE_HOST = "localhost"
+DATABASE_PORT = "5432"
+DATABASE_URL = "postgresql://postgres:postgrespw@localhost:32768"
