@@ -15,3 +15,4 @@ def verify_hash_password(plain_password: str, hashed_password: str):
 def create_jwt_token():
     encoded_jwt_token = 1
     return encoded_jwt_token
+

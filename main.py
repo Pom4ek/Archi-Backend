@@ -11,11 +11,11 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 
-app.include_router(router=auth_router)
-app.include_router(router=user_router)
+app.include_router(router=auth_router.router)
+app.include_router(router=user_router.router)
 
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.post("/upload")

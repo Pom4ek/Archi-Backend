@@ -1,22 +1,25 @@
 from datetime import datetime
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserBase(BaseModel):
-    username: str
+    name: str
     email: str
+    class Config:
+        orm_mode = True
 
 
 class UserCreate(UserBase):
     password: str
-    
+
 
 class UserRead(UserBase):
     id: int
     registered_at: datetime
-    
+
 
 class User(UserBase):
-    id: int
+    id: Optional[int]
     password: str
-    registered_at: datetime
+    registered_at: Optional[datetime]
