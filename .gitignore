@@ -4,8 +4,8 @@
 # static files
 app/static
 
-# databases
-*.db
+# config
+*.env
 
 # dll, cache
 __pycache__

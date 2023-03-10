@@ -1,6 +1,6 @@
 # Archi (BackEnd)
 Backend part of Archi project. This project should be music streaming service.
-Writed on Python
+Writing on Python.
 
 
 ## Technologies

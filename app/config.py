@@ -1,8 +1,12 @@
-PORT = "8000"
-HOST = "127.0.0.1"
-DATABASE_NAME = "archi"
-DATABASE_USERNAME = "master"
-DATABASE_PASS = "Bebrix1337$"
-DATABASE_HOST = "localhost"
-DATABASE_PORT = "5432"
-DATABASE_URL = "postgresql://postgres:postgrespw@localhost:32768"
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+
+
+DATABASE_USERNAME = os.environ.get("DATABASE_USERNAME")
+DATABASE_PASS = os.environ.get("DATABASE_PASS")
+DATABASE_HOST = os.environ.get("DATABASE_HOST")
+DATABASE_PORT = os.environ.get("DATABASE_PORT")
+DATABASE_URL = f"postgresql://{DATABASE_USERNAME}:{DATABASE_PASS}@{DATABASE_HOST}:{DATABASE_PORT}"
