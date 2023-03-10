@@ -29,6 +29,7 @@ async def signup(user: UserCreate):
         password=user.password,
         email=user.email
     )
+    
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
