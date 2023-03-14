@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 from app.utils import hash_password, verify_hash_password
 from app.models.users import User, UserCreate, UserRead
 from app.database.schemas import Users
@@ -11,32 +12,37 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/signup", response_model=UserRead)
-async def signup(user: UserCreate):
+async def signup(user: UserCreate, session: Session = Depends(get_session)):
     
-    session = get_session()
-    check_user_db = session.execute(select(Users.email).where(Users.email == user.email))
-    fetched_email = None
+    check_user_email = session.query(Users).filter(Users.email == user.email).first()
+    check_user_name = session.query(Users).filter(Users.name == user.name).first()
     
-    for row in check_user_db:
-        fetched_email = row[0]
+    if not check_user_email and not check_user_name:
+        
+        user.password = hash_password(user.password)
+        
+        new_user = Users(
+            name=user.name,
+            password=user.password,
+            email=user.email
+        )
     
-    if fetched_email is not None:
-        raise HTTPException(status_code=400,detail="This email is already in use")
+        session.add(new_user)
+        session.commit()
+        session.refresh(new_user)
+        
+    elif not check_user_name:
+        raise HTTPException(status_code=400, detail="This email is already in use")
+    else:
+        raise HTTPException(status_code=400, detail="This username is already in use")
     
-    user.password = hash_password(user.password)
-    new_user = Users(
-        name=user.name,
-        password=user.password,
-        email=user.email
-    )
-    
-    session.add(new_user)
-    session.commit()
-    session.refresh(new_user)
     return new_user
             
     
-    
 @router.post("/login")
-async def login():
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):
+    
+    check_db_user = session.execute(select(Users.name & Users.email).where(Users.name == form_data.username))
+    
+    
     return None

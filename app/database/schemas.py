@@ -11,7 +11,7 @@ class Users(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True)
-    name = Column(String(64), nullable=False)
+    name = Column(String(64), nullable=False, unique=True)
     password = Column(String(64), nullable=False)
     email = Column(String, nullable=True)
     registered_at = Column(TIMESTAMP, default=datetime.utcnow)
