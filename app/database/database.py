@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine, MetaData, select
+from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from app.config import DATABASE_URL
 from app.database.schemas import *

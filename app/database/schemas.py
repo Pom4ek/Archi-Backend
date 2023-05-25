@@ -7,6 +7,13 @@ from datetime import datetime
 Base = declarative_base()
 
 
+class Token(Base):
+    __tablename__ = "tokens"
+    
+    id = Column(Integer,primary_key=True)
+    expire_date = Column(TIMESTAMP,nullable=True)
+
+
 class Users(Base):
     __tablename__ = "users"
     

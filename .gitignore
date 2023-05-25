@@ -10,3 +10,5 @@ app/static
 # dll, cache
 __pycache__
 .idea
+
+test.py
