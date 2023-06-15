@@ -1,0 +1,11 @@
+services:
+  archidb:
+    container_name: archidb
+    hostname: localhost
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_PASSWORD=archidb
+      - POSTGRES_USER=archidb
+      - POSTGRES_DB=archidb
+    image: postgres:16beta1-alpine3.18
