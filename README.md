@@ -10,8 +10,8 @@ Writing on Python.
 - FastAPI
 - PostgreSQL
 - SQLAlchemy
+- Docker
 
 ### Planned to use
-- Docker
 - alembic
 - aiopg
