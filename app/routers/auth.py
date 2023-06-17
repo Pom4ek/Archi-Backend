@@ -2,14 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
-from jose import JWTError
-from pydantic import ValidationError
 from datetime import datetime
-import time
 
 from app.utils.password import hash_password, verify_hash_password
-from app.utils.jwt import JWT, oauth2_scheme
-from app.models.users import User, UserCreate, UserRead
+from app.utils.jwt import JWT
+from app.models.users import UserCreate, UserRead
 from app.models.tokens import TokenModel, TokenPayload
 from app.database.schemas import Users
 from app.database.database import get_session
@@ -68,24 +65,3 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db_session: Se
         "access_token": JWT.create_access_token(username=form_data.username),
         "refresh_token": JWT.create_refresh_token(username=form_data.username)
     }
-    
-
-@router.post("/me")
-async def get_current_user(token: str = Depends(oauth2_scheme), db_session: Session = Depends(get_session)):
-    try:
-        payload = JWT.decode_token(token)
-        token_data = TokenPayload(**payload)
-        if token_data.exp < time.time():
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                               detail="Token expired",
-                               headers={"WWW-Authenticate": "Bearer"}
-                               )
-    except(JWTError, ValidationError):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                               detail="Could not validate credentials",
-                               headers={"WWW-Authenticate": "Bearer"}
-                               )
-    
-    user = db_session.query(Users).filter(or_(Users.name == token_data.sub, Users.email == token_data.sub)).first()
-    
-    return user
